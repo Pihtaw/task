@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+//option go_package = "github.com/pihtaw/task/proto;proto";
+option go_package = "subpub/pb;pb";
+
+
+package pb;
+
+import "google/protobuf/empty.proto";
+
+service PubSub {
+  // Подписка – сервер отправляет поток событий
+  rpc Subscribe(SubscribeRequest) returns (stream Event);
+  // Публикация – классический запрос-ответ
+  rpc Publish(PublishRequest) returns (google.protobuf.Empty);
+}
+
+message SubscribeRequest {
+  string key = 1;
+}
+
+message PublishRequest {
+  string key = 1;
+  string data = 2;
+}
+
+message Event {
+  string data = 1;
+}
